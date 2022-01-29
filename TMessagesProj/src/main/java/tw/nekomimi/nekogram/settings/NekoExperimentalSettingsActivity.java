@@ -60,6 +60,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int experimentRow;
     private int smoothKeyboardRow;
     private int increaseVoiceMessageQualityRow;
+    private int channelAliasRow;
     private int mediaPreviewRow;
     private int proxyAutoSwitchRow;
     private int disableFilteringRow;
@@ -175,6 +176,16 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.increaseVoiceMessageQuality);
                 }
                 tooltip.showWithAction(0, UndoView.ACTION_NEED_RESATRT, null, null);
+            } else if (position == channelAliasRow){
+                boolean currentStatus = NekoXConfig.channelAlias;
+                // 当channelAlias将被开启且labelChannelUser未开启时自动开启labelChannelUser
+                if (!currentStatus && !NekoXConfig.labelChannelUser){
+                    NekoXConfig.toggleLabelChannelUser();
+                }
+                NekoXConfig.toggleChannelAlias();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoXConfig.channelAlias);
+                }
             } else if (position == enableStickerPinRow) {
                 NekoConfig.toggleEnableStickerPin();
                 if (view instanceof TextCheckCell) {
@@ -235,6 +246,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         increaseVoiceMessageQualityRow = rowCount++;
+        channelAliasRow = rowCount++;
         mediaPreviewRow = rowCount++;
         proxyAutoSwitchRow = rowCount++;
         disableFilteringRow = rowCount++;
@@ -390,6 +402,13 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("ProxyAutoSwitch", R.string.ProxyAutoSwitch), NekoConfig.proxyAutoSwitch, true);
                     } else if (position == increaseVoiceMessageQualityRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
+                    }else if (position == channelAliasRow) {
+                        textCell.setTextAndValueAndCheck(
+                            LocaleController.getString("channelAlias",
+                                R.string.channelAlias),
+                            LocaleController.getString("channelAliasDetails",
+                                R.string.channelAliasDetails),
+                            NekoXConfig.channelAlias, true, true);
                     } else if (position == enableStickerPinRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("EnableStickerPin", R.string.EnableStickerPin), LocaleController.getString("EnableStickerPinAbout", R.string.EnableStickerPinAbout), NekoConfig.enableStickerPin, true, true);
                     } else if (position == useMediaStreamInVoipRow) {

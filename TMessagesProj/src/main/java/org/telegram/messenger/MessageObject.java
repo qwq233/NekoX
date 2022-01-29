@@ -211,6 +211,10 @@ public class MessageObject {
         return emojiOnlyCount;
     }
 
+    public boolean isSenderChannel() {
+        return messageOwner.from_id instanceof TLRPC.TL_peerChannel;
+    }
+
     public static class SendAnimationData {
         public float x;
         public float y;

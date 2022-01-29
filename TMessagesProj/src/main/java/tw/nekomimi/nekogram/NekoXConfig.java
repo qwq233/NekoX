@@ -6,8 +6,6 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.NotificationCenter;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateTime;
 import tw.nekomimi.nekogram.database.NitritesKt;
 
 public class NekoXConfig {
@@ -15,31 +13,37 @@ public class NekoXConfig {
     //  public static String FAQ_URL = "https://telegra.ph/NekoX-FAQ-03-31";
     public static String FAQ_URL = "https://github.com/NekoX-Dev/NekoX#faq";
     public static long[] officialChats = {
-            1305127566, // NekoX Updates
-            1151172683, // NekoX Chat
-            1299578049, // NekoX Chat Channel
-            1137038259, // NekoX APKs
+        1305127566, // NekoX Updates
+        1151172683, // NekoX Chat
+        1299578049, // NekoX Chat Channel
+        1137038259, // NekoX APKs
     };
 
     public static long[] developers = {
-            896711046, // nekohasekai
-            380570774, // Haruhi
+        896711046, // nekohasekai
+        380570774, // Haruhi
     };
 
-    public static SharedPreferences preferences = NitritesKt.openMainSharedPreference("nekox_config");
+    public static SharedPreferences preferences = NitritesKt.openMainSharedPreference(
+        "nekox_config");
 
     public static boolean developerModeEntrance;
     public static boolean developerMode = preferences.getBoolean("developer_mode", false);
 
     public static boolean disableFlagSecure = preferences.getBoolean("disable_flag_secure", false);
-    public static boolean disableScreenshotDetection = preferences.getBoolean("disable_screenshot_detection", false);
+    public static boolean disableScreenshotDetection = preferences.getBoolean(
+        "disable_screenshot_detection", false);
 
-    public static boolean disableStatusUpdate = preferences.getBoolean("disable_status_update", false);
+    public static boolean disableStatusUpdate = preferences.getBoolean("disable_status_update",
+        false);
     public static boolean keepOnlineStatus = preferences.getBoolean("keepOnlineStatus", false);
 
     public static int autoUpdateReleaseChannel = preferences.getInt("autoUpdateReleaseChannel", 2);
     public static String ignoredUpdateTag = preferences.getString("ignoredUpdateTag", "");
     public static long nextUpdateCheck = preferences.getLong("nextUpdateCheckTimestamp", 0);
+    public static boolean labelChannelUser = preferences.getBoolean("labelChannelUser", false);
+    public static boolean channelAlias = preferences.getBoolean("channelAlias", false);
+    public static final String channelAliasPrefix = "channelAliasPrefix_";
 
 
     public static void toggleDeveloperMode() {
@@ -49,10 +53,10 @@ public class NekoXConfig {
         if (!developerMode) {
 
             preferences.edit()
-                    .putBoolean("disable_flag_secure", disableFlagSecure = false)
-                    .putBoolean("disable_screenshot_detection", disableScreenshotDetection = false)
-                    .putBoolean("disable_status_update", disableStatusUpdate = false)
-                    .apply();
+                .putBoolean("disable_flag_secure", disableFlagSecure = false)
+                .putBoolean("disable_screenshot_detection", disableScreenshotDetection = false)
+                .putBoolean("disable_status_update", disableStatusUpdate = false)
+                .apply();
 
 
         }
@@ -61,13 +65,28 @@ public class NekoXConfig {
 
     public static void toggleDisableFlagSecure() {
 
-        preferences.edit().putBoolean("disable_flag_secure", disableFlagSecure = !disableFlagSecure).apply();
+        preferences.edit().putBoolean("disable_flag_secure", disableFlagSecure = !disableFlagSecure)
+            .apply();
 
     }
 
     public static void toggleDisableScreenshotDetection() {
 
-        preferences.edit().putBoolean("disable_screenshot_detection", disableScreenshotDetection = !disableScreenshotDetection).apply();
+        preferences.edit().putBoolean("disable_screenshot_detection",
+            disableScreenshotDetection = !disableScreenshotDetection).apply();
+
+    }
+
+    public static void toggleLabelChannelUser() {
+
+        preferences.edit().putBoolean("labelChannelUser", labelChannelUser = !labelChannelUser)
+            .apply();
+
+    }
+
+    public static void toggleChannelAlias() {
+
+        preferences.edit().putBoolean("channelAlias", channelAlias = !channelAlias).apply();
 
     }
 
@@ -112,10 +131,10 @@ public class NekoXConfig {
     public static void saveCustomApi() {
 
         preferences.edit()
-                .putInt("custom_api", customApi)
-                .putInt("custom_app_id", customAppId)
-                .putString("custom_app_hash", customAppHash)
-                .apply();
+            .putInt("custom_api", customApi)
+            .putInt("custom_app_id", customAppId)
+            .putString("custom_app_hash", customAppHash)
+            .apply();
 
     }
 
@@ -130,34 +149,40 @@ public class NekoXConfig {
     public static void saveCustomDc() {
 
         preferences.edit()
-                .putString("custom_dc_v4", customDcIpv4)
-                .putString("custom_dc_v6", customDcIpv6)
-                .putInt("custom_dc_port", customDcPort)
-                .putInt("custom_dc_layer", customDcLayer)
-                .putString("custom_dc_public_key", customDcPublicKey)
-                .putLong("custom_dc_fingerprint", customDcFingerprint)
-                .apply();
+            .putString("custom_dc_v4", customDcIpv4)
+            .putString("custom_dc_v6", customDcIpv6)
+            .putInt("custom_dc_port", customDcPort)
+            .putInt("custom_dc_layer", customDcLayer)
+            .putString("custom_dc_public_key", customDcPublicKey)
+            .putLong("custom_dc_fingerprint", customDcFingerprint)
+            .apply();
 
     }
 
     public static void toggleDisableStatusUpdate() {
 
-        preferences.edit().putBoolean("disable_status_update", disableStatusUpdate = !disableStatusUpdate).apply();
+        preferences.edit()
+            .putBoolean("disable_status_update", disableStatusUpdate = !disableStatusUpdate)
+            .apply();
 
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.updateUserStatus, (Object) null);
+        NotificationCenter.getGlobalInstance()
+            .postNotificationName(NotificationCenter.updateUserStatus, (Object) null);
 
     }
 
     public static void toggleKeepOnlineStatus() {
 
-        preferences.edit().putBoolean("keepOnlineStatus", keepOnlineStatus = !keepOnlineStatus).apply();
+        preferences.edit().putBoolean("keepOnlineStatus", keepOnlineStatus = !keepOnlineStatus)
+            .apply();
 
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.updateUserStatus, (Object) null);
+        NotificationCenter.getGlobalInstance()
+            .postNotificationName(NotificationCenter.updateUserStatus, (Object) null);
 
     }
 
     public static void setAutoUpdateReleaseChannel(int channel) {
-        preferences.edit().putInt("autoUpdateReleaseChannel", autoUpdateReleaseChannel = channel).apply();
+        preferences.edit().putInt("autoUpdateReleaseChannel", autoUpdateReleaseChannel = channel)
+            .apply();
     }
 
     public static void setIgnoredUpdateTag(String ignored) {
@@ -165,7 +190,20 @@ public class NekoXConfig {
     }
 
     public static void setNextUpdateCheck(long timestamp) {
-        preferences.edit().putLong("nextUpdateCheckTimestamp",  nextUpdateCheck = timestamp).apply();
+        preferences.edit().putLong("nextUpdateCheckTimestamp", nextUpdateCheck = timestamp).apply();
     }
+
+    public static void setChannelAlias(long channelID, String name) {
+        preferences.edit().putString(channelAliasPrefix + channelID, name).apply();
+    }
+
+    public static void emptyChannelAlias(long channelID) {
+        preferences.edit().remove(channelAliasPrefix + channelID).apply();
+    }
+
+    public static String getChannelAlias(long channelID) {
+        return preferences.getString(channelAliasPrefix + channelID, null);
+    }
+
 
 }

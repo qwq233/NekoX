@@ -67,6 +67,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int ignoreMutedCountRow;
     private int disableChatActionRow;
     private int disablePhotoSideActionRow;
+    private int labelChannelUserRow;
     private int hideKeyboardOnChatScrollRow;
     private int disableVibrationRow;
     private int skipOpenLinkConfirmRow;
@@ -194,6 +195,13 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 NekoConfig.toggleDisablePhotoSideAction();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disablePhotoSideAction);
+                }
+            } else if (position == labelChannelUserRow) {
+                if (!NekoXConfig.channelAlias){
+                    NekoXConfig.toggleLabelChannelUser();
+                    if (view instanceof TextCheckCell) {
+                        ((TextCheckCell) view).setChecked(NekoXConfig.labelChannelUser);
+                    }
                 }
             } else if (position == hideKeyboardOnChatScrollRow) {
                 NekoConfig.toggleHideKeyboardOnChatScroll();
@@ -363,6 +371,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         disableRemoteEmojiInteractionsRow = rowCount++;
 
         disablePhotoSideActionRow = rowCount++;
+        labelChannelUserRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
         disableVibrationRow = rowCount++;
         skipOpenLinkConfirmRow = rowCount++;
@@ -715,6 +724,14 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("DisableChatAction", R.string.DisableChatAction), NekoConfig.disableChatAction, true);
                     } else if (position == disablePhotoSideActionRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisablePhotoViewerSideAction", R.string.DisablePhotoViewerSideAction), NekoConfig.disablePhotoSideAction, true);
+                    } else if (position == labelChannelUserRow) {
+                        textCell.setTextAndValueAndCheck(
+                            LocaleController.getString("labelChannelUser",
+                                R.string.setChannelAliasName),
+                            LocaleController.getString("labelChannelUser",
+                                R.string.labelChannelUserDetails),
+                            NekoXConfig.labelChannelUser,
+                            true, true);
                     } else if (position == hideKeyboardOnChatScrollRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideKeyboardOnChatScroll", R.string.HideKeyboardOnChatScroll), NekoConfig.hideKeyboardOnChatScroll, true);
                     } else if (position == showTabsOnForwardRow) {

@@ -145,6 +145,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.NekoXConfig;
 
 public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate, ImageReceiver.ImageReceiverDelegate, DownloadController.FileDownloadProgressListener, TextSelectionHelper.SelectableView {
 
@@ -9807,6 +9808,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     adminLabel = LocaleController.getString("ChatAdmin", R.string.ChatAdmin);
                 }
                 adminString = adminLabel;
+                adminWidth = (int) Math.ceil(Theme.chat_adminPaint.measureText(adminString));
+                nameWidth -= adminWidth;
+            } else if (NekoXConfig.labelChannelUser && isMegagroup
+                && currentChat != null && currentMessageObject.isSenderChannel()) {
+                if (NekoXConfig.channelAlias) {
+                    String aliasName = NekoXConfig.getChannelAlias(currentMessageObject.messageOwner.from_id.channel_id);
+                    if (aliasName != null) {
+                        adminString = aliasName + " | Channel";
+                    } else {
+                        adminString = "Channel";
+                    }
+                } else {
+                    adminString = "Channel";
+                }
                 adminWidth = (int) Math.ceil(Theme.chat_adminPaint.measureText(adminString));
                 nameWidth -= adminWidth;
             } else {
