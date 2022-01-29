@@ -26,6 +26,7 @@ public class NekoConfig {
 
     public static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nkmrcfg", Context.MODE_PRIVATE);
     public static final Object sync = new Object();
+    public static final String channelAliasPrefix = "channelAliasPrefix_";
 
     private static boolean configLoaded = false;
     private static final ArrayList<ConfigItem> configs = new ArrayList<>();
@@ -40,7 +41,6 @@ public class NekoConfig {
     public static ConfigItem repeatConfirm = addConfig("repeatConfirm", configTypeBool, false);
     public static ConfigItem disableInstantCamera = addConfig("DisableInstantCamera", configTypeBool, false);
     public static ConfigItem showSeconds = addConfig("showSeconds", configTypeBool, false);
-
     public static ConfigItem enablePublicProxy = addConfig("enablePublicProxy", configTypeBool, true);
     public static ConfigItem autoUpdateSubInfo = addConfig("autoUpdateSubInfo", configTypeBool, true);
 
@@ -168,6 +168,9 @@ public class NekoConfig {
     public static ConfigItem hideSendAsChannel = addConfig("hideSendAsChannel", configTypeBool, false);
     public static ConfigItem showSpoilersDirectly = addConfig("showSpoilersDirectly", configTypeBool, false);
     public static ConfigItem reactions = addConfig("reactions", configTypeInt, 0);
+
+    public static ConfigItem labelChannelUser = addConfig("labelChannelUser", configTypeBool, false);
+    public static ConfigItem channelAlias = addConfig("channelAlias",configTypeString,false);
 
     public static ConfigItem disableAutoDownloadingWin32Executable = addConfig("Win32ExecutableFiles", configTypeBool, true);
     public static ConfigItem disableAutoDownloadingArchive = addConfig("ArchiveFiles", configTypeBool, true);
@@ -461,5 +464,18 @@ public class NekoConfig {
             customAudioBitrate.setConfigInt(preferences.getInt("customAudioBitrate", 32));
         if (preferences.contains("disableGroupVoipAudioProcessing"))
             disableGroupVoipAudioProcessing.setConfigBool(preferences.getBoolean("disableGroupVoipAudioProcessing", false));
+    }
+
+    public static void toggleLabelChannelUser() {
+
+        NekoXConfig.preferences.edit().putBoolean("labelChannelUser", labelChannelUser = !labelChannelUser)
+            .apply();
+
+    }
+
+    public static void toggleChannelAlias() {
+
+        NekoXConfig.preferences.edit().putBoolean("channelAlias", NekoXConfig.channelAlias = !NekoXConfig.channelAlias).apply();
+
     }
 }
