@@ -508,6 +508,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 //                    bottomSheet.setParentFragment(PremiumPreviewFragment.this);
 //                    showDialog(bottomSheet);
 //                } else {
+                if (subscriptionTiers.isEmpty()) {
+                    return;
+                }
                     showDialog(new PremiumFeatureBottomSheet(PremiumPreviewFragment.this, cell.data.type, false, subscriptionTiers.get(selectedTierIndex)));
                // }
             }
@@ -553,6 +556,11 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
         sentShowScreenStat(source);
         return fragmentView;
+    }
+
+    @Override
+    public boolean isActionBarCrossfadeEnabled() {
+        return false;
     }
 
     public static void buyPremium(BaseFragment fragment) {
