@@ -8,8 +8,6 @@
 
 package org.telegram.ui;
 
-import static org.telegram.messenger.ContactsController.PRIVACY_RULES_TYPE_ADDED_BY_PHONE;
-
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -77,7 +75,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
@@ -95,7 +92,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -179,8 +175,8 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CrossfadeDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.DotDividerSpan;
+import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
@@ -202,7 +198,6 @@ import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScamDrawable;
-import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
@@ -223,20 +218,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-
 import java.util.concurrent.atomic.AtomicReference;
+
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
 import kotlin.Unit;
 import libv2ray.Libv2ray;
-import tw.nekomimi.nekogram.ui.BottomBuilder;
-import tw.nekomimi.nekogram.InternalUpdater;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.NekoXConfig;
-import tw.nekomimi.nekogram.settings.NekoXSettingActivity;
 import tw.nekomimi.nekogram.parts.DialogTransKt;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
+import tw.nekomimi.nekogram.settings.NekoXSettingActivity;
+import tw.nekomimi.nekogram.ui.BottomBuilder;
 import tw.nekomimi.nekogram.utils.AlertUtil;
 import tw.nekomimi.nekogram.utils.EnvUtil;
 import tw.nekomimi.nekogram.utils.FileUtil;
@@ -4294,6 +4288,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         writeButton.setBackground(combinedDrawable);
         if (userId != 0) {
             if (imageUpdater != null) {
+                cameraDrawable = new RLottieDrawable(R.raw.camera_outline, String.valueOf(R.raw.camera_outline), AndroidUtilities.dp(56), AndroidUtilities.dp(56), false, null);
+                cellCameraDrawable = new RLottieDrawable(R.raw.camera_outline, R.raw.camera_outline + "_cell", AndroidUtilities.dp(42), AndroidUtilities.dp(42), false, null);
+
                 writeButton.setImageResource(R.drawable.baseline_edit_24);
                 writeButton.setContentDescription(LocaleController.getString("AccDescrChangeProfilePicture", R.string.AccDescrChangeProfilePicture));
                 writeButton.setPadding(AndroidUtilities.dp(2), 0, 0, AndroidUtilities.dp(2));
