@@ -12928,6 +12928,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 h = view.getMeasuredHeight();
             }
         }
+        if (drawable != null)
         drawable.setTop((int) (parentViewTopOffset + offset), w, h, (int) parentViewTopOffset, blurredViewTopOffset, blurredViewBottomOffset, pinnedTop, pinnedBottom || transitionParams.changePinnedBottomProgress != 1);
     }
 
@@ -13172,7 +13173,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (selectionOverlayPaint.getAlpha() > 0) {
                 canvas.save();
                 canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                currentBackgroundDrawable.drawCached(canvas, backgroundCacheParams, selectionOverlayPaint);
+                if (currentBackgroundDrawable != null)
+                    currentBackgroundDrawable.drawCached(canvas, backgroundCacheParams, selectionOverlayPaint);
                 canvas.restore();
             }
             selectionOverlayPaint.setAlpha(wasAlpha);
@@ -18492,6 +18494,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     public int getCurrentBackgroundLeft() {
         if (currentBackgroundDrawable == null) {
+            FileLog.e("getCurrentBackgroundLeft accessed when currentBackgroundDrawable is null");
             return 0;
         }
         int left = currentBackgroundDrawable.getBounds().left;
@@ -18778,7 +18781,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             lastForwardedNamesOffset = namesOffset;
             lastForwardNameWidth = forwardedNameWidth;
             lastBackgroundLeft = getCurrentBackgroundLeft();
-            lastBackgroundRight = getCurrentBackgroundRight();
+            if (currentBackgroundDrawable != null)
+                lastBackgroundRight = getCurrentBackgroundRight();
 
             reactionsLayoutInBubble.recordDrawingState();
             if (replyNameLayout != null) {
